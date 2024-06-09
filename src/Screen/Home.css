@@ -1,194 +1,331 @@
 .home-body {
-    position: relative;
-    height: auto;
-    width: 100%;
-  }
-  
-  .home-img {
-    width: 100%;
-    height: calc(100vh - 70px);
-    opacity: 0.7;
-  }
-  
-  .home-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 70px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    overflow-x: auto;
-  }
-  
-  .home-main-box {
-    width: 80%;
-    height: auto;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-  }
-  
-  .home-top-box {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: flex-start;
-  }
-  
-  .home-button {
-    background: none;
-    color: rgb(0, 0, 0);
-    opacity: 0.5;
-    cursor: pointer;
-    transition: opacity 0.3s, color 0.3s;
-    height: 50px;
-    width: 100px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size: large;
-    background-color: #fff;
-    margin-right: 3px;
-  }
-  
-  .home-button .icon {
-    margin-right: 5px;
-    color: rgb(0, 0, 0);
-    transition: color 0.3s, font-size 0.3s;
-  }
-  
-  .home-button.active {
-    opacity: 1;
-  }
-  
-  .home-button.active .icon {
-    color: rgb(189, 29, 51);
-  }
-  
-  .flights-icon {
-    font-size: 34px;
-  }
-  
-  .flights-icon-active {
-    font-size: 34px;
-  }
-  
-  .home-bottom-box {
-    width: 100%;
-    background-color: #fff;
-    color: black;
-  }
-  
-  .home-Flights-box {
+  position: relative;
+  height: auto;
+  width: 100%;
+}
+
+.home-img {
+  width: 100%;
+  height: calc(100vh - 70px);
+  opacity: 0.7;
+}
+
+.home-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  overflow-x: auto;
+}
+
+.home-main-box {
+  width: 80%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.home-top-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.home-button {
+  background: none;
+  color: rgb(0, 0, 0);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s, color 0.3s;
+  height: 50px;
+  width: 100px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: large;
+  background-color: #fff;
+  margin-right: 3px;
+}
+
+.home-button .icon {
+  margin-right: 5px;
+  color: rgb(0, 0, 0);
+  transition: color 0.3s, font-size 0.3s;
+}
+
+.home-button.active {
+  opacity: 1;
+}
+
+.home-button.active .icon {
+  color: rgb(189, 29, 51);
+}
+
+.flights-icon {
+  font-size: 34px;
+}
+
+.flights-icon-active {
+  font-size: 34px;
+}
+
+.home-bottom-box {
+  width: 100%;
+  background-color: #fff;
+  color: black;
+}
+
+.home-Flights-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-Flights-box2 {
+  display: flex;
+  margin-top: 10px;
+}
+
+.home-Flights-button {
+  height: 40px;
+  width: 130px;
+  border-radius: 20px;
+  margin-left: 10px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.home-Flights-button.active {
+  border: 2px solid rgb(189, 29, 51);
+  color: rgb(189, 29, 51);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-button {
+  border-radius: 20px;
+  border: none;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-button-icon2 {
+  display: none;
+}
+.dropdown:hover .dropdown-button-icon2 {
+  display: block;
+}
+.dropdown:hover .dropdown-button-icon1 {
+  display: none;
+}
+
+.passenger-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.passenger-count p {
+  margin: 0;
+}
+
+.passenger-count button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.select-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.select-container3 {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
-  
-  .home-Flights-box2 {
+.select-container2 {
+  display: flex;
+  align-items: center;
+}
+.home-Select1 {
+  padding: 10px;
+  width: 250px;
+  font-size: 20px;
+}
+.calendar-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+.home-DatePicker-text {
+  margin-bottom: 2px;
+}
+.home-DatePicker {
+  font-size: 20px;
+}
+.home-search-button3{
+    padding: 8px;
+    font-size: 18px;
+    color: rgb(189, 29, 51);
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 2px solid rgb(189, 29, 51);
+    cursor: pointer;
+    transition: .5s;
+}
+.home-search-button3:hover{
+    background-color: rgb(189, 29, 51);
+    color: #fff;
+    }
+
+.home-div{
+    width: 100%;
     display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+.home-line2{
+    height: 2px;
+    width: 100%;
+    background-color: rgb(189, 29, 51);
+    opacity: .3;
+    margin-top: 10px;
+}
+
+.home-search-button2 {
+    padding: 8px;
+    font-size: 20px;
+    color: #fff;
+    background-color: rgb(189, 29, 51);
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 2px solid rgb(189, 29, 51);
+    cursor: pointer;
+    transition: .5s;
+  }
+  .home-search-button2:hover {
+    border: 2px solid rgb(189, 29, 51);
+    background-color: #fff;
+    color: rgb(189, 29, 51);
+  }
+.home-line {
+  height: 30px;
+}
+.home-search-button {
+  position: absolute;
+  padding: 10px;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgb(189, 29, 51);
+  border: 2px solid rgb(189, 29, 51);
+    cursor: pointer;
+    transition: .5s;
+  border-radius: 5px;
+  margin-top: -20px;
+}
+.home-search-button:hover {
+    border: 2px solid rgb(189, 29, 51);
+    background-color: #fff;
+    color: rgb(189, 29, 51);
+  }
+@media screen and (max-width: 1200px) {
+  .home-main-box {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .home-Flights-box {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .dropdown {
+    margin-left: 10px;
     margin-top: 10px;
   }
-  
-  .home-Flights-button {
-    height: 40px;
-    width: 130px;
-    border-radius: 20px;
-    margin-left: 10px;
-    font-size: 18px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    transition: 0.5s;
-  }
-  
-  .home-Flights-button.active {
-    border: 2px solid rgb(189, 29, 51);
-    color: rgb(189, 29, 51);
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  .dropdown-button{
-    border-radius: 20px;
-    border: none;
-    margin-right: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content button {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+  .select-container {
     width: 100%;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: left;
+    flex-direction: column;
+    justify-content: center;
   }
-  
-  .dropdown-content button:hover {
-    background-color: #f1f1f1;
+  .select-container3 {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
   }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
+  .calendar-container {
+    margin-left: 10px;
+    margin-bottom: 20px;
   }
-  .dropdown-button-icon2{
-    display: none;
+}
+@media screen and (max-width: 600px) {
+  .select-container2 {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
   }
-  .dropdown:hover .dropdown-button-icon2 {
-    display: block;
+  .home-Select1 {
+    width: 100%;
   }
-  .dropdown:hover .dropdown-button-icon1 {
-    display: none;
+  .calendar-container {
+    width: 95%;
+    margin-bottom: 0px;
   }
-  
-  .passenger-count {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+  .home-DatePicker {
+    width: 100%;
   }
-  
-  .passenger-count p {
-    margin: 0;
-  }
-  
-  .passenger-count button {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  .select-container{
-    display: flex;
-  }
-  .home-Select1{
-    width: 300px;
-    height: 80px;
-  }
-  .home-DatePicker{
-    padding: 10px;
-    font-size: 20px;
-  }
+}

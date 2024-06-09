@@ -17,14 +17,22 @@ import {
   CaretUpOutlined,
   RightOutlined,
   LeftOutlined,
+  SearchOutlined,
+  CloseOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 
+const options2 = [
+  { value: "Galileo PK", label: "Galileo PK" },
+  { value: "Sabre Aed", label: "Sabre Aed" },
+  { value: "Sabre AED", label: "Sabre AED" },
+];
+
 const options = [
-  { value: "option1", label: "Option 1" },
-  { value: "option2", label: "Option 2" },
-  { value: "option3", label: "Option 3" },
-  { value: "option4", label: "Option 4" },
-  // Add more options as needed
+  { value: "carrier1", label: "Carrier 1" },
+  { value: "carrier2", label: "Carrier 2" },
+  { value: "carrier3", label: "Carrier 3" },
+  { value: "carrier4", label: "Carrier 4" },
 ];
 
 export default function Home() {
@@ -101,7 +109,7 @@ export default function Home() {
     setSelectedDate2(date);
   };
 
-  const [data2, setData2] = useState ();
+  const [data2, setData2] = useState();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -117,7 +125,12 @@ export default function Home() {
               departure_airport: selectedOption.value,
               arrival_airport_type: "AIRPORT", // CITY or AIRPORT
               arrival_airport: selectedOption2.value,
-              departure_date: new Date(selectedDate).toLocaleString().split(",")[0].split("/").reverse().join("-"),
+              departure_date: new Date(selectedDate)
+                .toLocaleString()
+                .split(",")[0]
+                .split("/")
+                .reverse()
+                .join("-"),
             },
           ],
           travelers_adult: adults,
@@ -141,7 +154,6 @@ export default function Home() {
         }
       )
       .then((response) => {
-        
         setData2(response.data);
       })
       .catch((error) => {
@@ -233,12 +245,9 @@ export default function Home() {
                       <div className="dropdown-content">
                         <button
                           onClick={() => setFlightType("any")}
-                          className={
-                            flightType === "any" ? "active" : ""
-                          }
+                          className={flightType === "any" ? "active" : ""}
                         >
-                          Any Flight{" "}
-                          {flightType === "any" && <CheckOutlined />}
+                          Any Flight {flightType === "any" && <CheckOutlined />}
                         </button>
                         <button
                           onClick={() => setFlightType("non-stop")}
@@ -389,81 +398,280 @@ export default function Home() {
                 </div>
 
                 {flightsPage === 1 ? (
-                  <div>Page-1</div>
+                  <form onSubmit={onSubmit}>
+                    <div className="home-line" />
+                    <div className="select-container">
+                      <div className="select-container2">
+                        <Select
+                          value={selectedOption}
+                          onChange={handleChange}
+                          options={data}
+                          isSearchable
+                          placeholder="Leaving From"
+                          className="home-Select1"
+                        />
+
+                        <Select
+                          value={selectedOption2}
+                          onChange={handleChange2}
+                          options={data}
+                          isSearchable
+                          placeholder="Going To"
+                          className="home-Select1"
+                        />
+                      </div>
+
+                      <div className="select-container2">
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Departure Date</p>
+                          <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                          />
+                        </div>
+
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Return Date</p>
+                          <DatePicker
+                            selected={selectedDate2}
+                            onChange={handleDateChange2}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="select-container2">
+                      <Select
+                        isMulti
+                        value={selectedOption3}
+                        onChange={handleChange3}
+                        options={options}
+                        isSearchable
+                        placeholder="Preferred Carrier"
+                        className="home-Select1"
+                      />
+
+                      <Select
+                        value={selectedOption4}
+                        onChange={handleChange4}
+                        options={options2}
+                        isSearchable
+                        placeholder="Galileo PK"
+                        className="home-Select1"
+                      />
+                    </div>
+                    <div className="home-line" />
+                    <button type="submit" className="home-search-button">
+                      <SearchOutlined />
+                      SEARCH
+                    </button>
+                  </form>
                 ) : flightsPage === 2 ? (
-                  <div>Page-2</div>
+                  <form onSubmit={onSubmit}>
+                    <div className="home-line" />
+                    <div className="select-container">
+                      <div className="select-container2">
+                        <Select
+                          value={selectedOption}
+                          onChange={handleChange}
+                          options={data}
+                          isSearchable
+                          placeholder="Leaving From"
+                          className="home-Select1"
+                        />
+
+                        <Select
+                          value={selectedOption2}
+                          onChange={handleChange2}
+                          options={data}
+                          isSearchable
+                          placeholder="Going To"
+                          className="home-Select1"
+                        />
+                      </div>
+
+                      <div className="select-container2">
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Departure Date</p>
+                          <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                          />
+                        </div>
+
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Return Date</p>
+                          <DatePicker
+                            selected={selectedDate2}
+                            onChange={handleDateChange2}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="select-container2">
+                      <Select
+                        isMulti
+                        value={selectedOption3}
+                        onChange={handleChange3}
+                        options={options}
+                        isSearchable
+                        placeholder="Preferred Carrier"
+                        className="home-Select1"
+                      />
+
+                      <Select
+                        value={selectedOption4}
+                        onChange={handleChange4}
+                        options={options2}
+                        isSearchable
+                        placeholder="Galileo PK"
+                        className="home-Select1"
+                      />
+                    </div>
+                    <div className="home-line" />
+                    <button type="submit" className="home-search-button">
+                      <SearchOutlined />
+                      SEARCH
+                    </button>
+                  </form>
                 ) : flightsPage === 3 ? (
-                  <div>Page-3</div>
+                  <form onSubmit={onSubmit}>
+                    <div className="home-div">
+                      <button className="home-search-button3">
+                      <PlusOutlined /> Add
+                      </button>
+                    </div>
+                    <div className="select-container3">
+                      <div className="select-container2">
+                        <Select
+                          value={selectedOption}
+                          onChange={handleChange}
+                          options={data}
+                          isSearchable
+                          placeholder="Leaving From"
+                          className="home-Select1"
+                        />
+
+                        <Select
+                          value={selectedOption2}
+                          onChange={handleChange2}
+                          options={data}
+                          isSearchable
+                          placeholder="Going To"
+                          className="home-Select1"
+                        />
+                      </div>
+
+                      <div className="select-container2">
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Departure Date</p>
+                          <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy" // Change the format as needed
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                          />
+                        </div>
+
+                        <button className="home-search-button2">
+                          <CloseOutlined />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="home-line2"/>
+
+                    <div className="select-container3">
+                      <div className="select-container2">
+                        <Select
+                          value={selectedOption}
+                          onChange={handleChange}
+                          options={data}
+                          isSearchable
+                          placeholder="Leaving From"
+                          className="home-Select1"
+                        />
+
+                        <Select
+                          value={selectedOption2}
+                          onChange={handleChange2}
+                          options={data}
+                          isSearchable
+                          placeholder="Going To"
+                          className="home-Select1"
+                        />
+                      </div>
+
+                      <div className="select-container2">
+                        <div className="calendar-container">
+                          <p className="home-DatePicker-text">Departure Date</p>
+                          <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy" // Change the format as needed
+                            placeholderText="Select a date"
+                            isClearable
+                            className="home-DatePicker"
+                          />
+                        </div>
+
+                        <button className="home-search-button2">
+                          <CloseOutlined />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="home-line2"/>
+
+                    <div className="select-container2">
+                      <Select
+                        isMulti
+                        value={selectedOption3}
+                        onChange={handleChange3}
+                        options={options}
+                        isSearchable
+                        placeholder="Preferred Carrier"
+                        className="home-Select1"
+                      />
+
+                      <Select
+                        value={selectedOption4}
+                        onChange={handleChange4}
+                        options={options2}
+                        isSearchable
+                        placeholder="Galileo PK"
+                        className="home-Select1"
+                      />
+                    </div>
+                    <div className="home-line" />
+                    <button type="submit" className="home-search-button">
+                      <SearchOutlined />
+                      SEARCH
+                    </button>
+                  </form>
                 ) : (
                   <p>Error</p>
                 )}
-
-                <form onSubmit={onSubmit}>
-                  <div className="select-container">
-                    <Select
-                      value={selectedOption}
-                      onChange={handleChange}
-                      options={data}
-                      isSearchable
-                      placeholder="Leaving From"
-                      className="home-Select1"
-                    />
-
-                    <Select
-                      value={selectedOption2}
-                      onChange={handleChange2}
-                      options={data}
-                      isSearchable
-                      placeholder="Going From"
-                      className="home-Select1"
-                    />
-
-                    <div className="calendar-container">
-                      <p>Departure Date</p>
-                      <DatePicker
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        dateFormat="dd/MM/yyyy" // Change the format as needed
-                        placeholderText="Select a date"
-                        isClearable
-                        className="home-DatePicker"
-                      />
-                    </div>
-
-                    <div className="calendar-container">
-                      <p>Return Date</p>
-                      <DatePicker
-                        selected={selectedDate2}
-                        onChange={handleDateChange2}
-                        dateFormat="dd/MM/yyyy" // Change the format as needed
-                        placeholderText="Select a date"
-                        isClearable
-                        className="home-DatePicker"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Select
-                      value={selectedOption3}
-                      onChange={handleChange3}
-                      options={options}
-                      isSearchable
-                      placeholder="Preferred Carrier"
-                      className="home-Select1"
-                    />
-
-                    <Select
-                      value={selectedOption4}
-                      onChange={handleChange4}
-                      options={options}
-                      isSearchable
-                      placeholder="Galileo PK"
-                      className="home-Select1"
-                    />
-                  </div>
-                  <button type="submit">SEARCH</button>
-                </form>
               </div>
             ) : page === 2 ? (
               // Hotels
@@ -473,16 +681,22 @@ export default function Home() {
             )}
           </div>
 
-          <div>
-            <h3>Airline: </h3>
-            <h3>Details: </h3>
-            <h3>Departure: </h3>
-            <p>16-Jun-24 23:00</p>
-            <h3>Arrival:</h3>
-            <h3>Duration:</h3>
-            <h3>Baggage:</h3>
-            <h1>Price:</h1>
-          </div>
+          {/* {data2?.data?.length > 0 && (
+            <div>
+              {data2.data.map((flight, index) => (
+                <div key={index}>
+                  <h3>Airline: {flight.airline}</h3>
+                  <h3>Details: {flight.details}</h3>
+                  <h3>Departure: {flight.departure}</h3>
+                  <p>{flight.departure_time}</p>
+                  <h3>Arrival: {flight.arrival}</h3>
+                  <h3>Duration: {flight.duration}</h3>
+                  <h3>Baggage: {flight.baggage}</h3>
+                  <h1>Price: {flight.price}</h1>
+                </div>
+              ))}
+            </div>
+          )} */}
         </div>
       </div>
     </div>
