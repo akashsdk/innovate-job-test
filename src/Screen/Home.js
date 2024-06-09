@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import BgImg from "../Img/Emirates-airlines.jpg";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 import {
   ArrowRightOutlined,
@@ -33,16 +34,42 @@ export default function Home() {
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
-  const [flightType, setFlightType] = useState("Any Flight");
+  const [flightType, setFlightType] = useState("any");
   const [flightClass, setFlightClass] = useState("Economy");
 
   const totalPassengers = adults + children + infants;
 
   // Leaving From
+  const [data, setData] = useState([]);
+
   const [selectedOption, setSelectedOption] = useState(null);
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://devapi.innotraveltech.com/tools/airport-autosuggetion-data",
+        {
+          headers: {
+            apikey: "ITT88534696524514",
+            secretecode: "BOUINpK3g7kUI9TJ9eVgaK8l1stXNzz4YC5KiOBotf9",
+          },
+        }
+      )
+      .then((response) => {
+        // Assuming response.data is an array of airport data
+        const formattedData = response.data.map((item) => ({
+          value: item.code,
+          label: item.airport_name,
+        }));
+        setData(formattedData);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error);
+      });
+  }, []);
 
   // Going From
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -73,6 +100,57 @@ export default function Home() {
   const handleDateChange2 = (date) => {
     setSelectedDate2(date);
   };
+
+  const [data2, setData2] = useState ();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        "https://devapi.innotraveltech.com/flight/search",
+        {
+          journey_type: "OneWay", // OneWay, RoundTrip, MultiCity
+          segment: [
+            {
+              departure_airport_type: "CITY", // CITY or AIRPORT
+              departure_airport: selectedOption.value,
+              arrival_airport_type: "AIRPORT", // CITY or AIRPORT
+              arrival_airport: selectedOption2.value,
+              departure_date: new Date(selectedDate).toLocaleString().split(",")[0].split("/").reverse().join("-"),
+            },
+          ],
+          travelers_adult: adults,
+          travelers_child: children,
+          travelers_child_age: 0,
+          travelers_infants: infants,
+          travelers_infants_age: [""],
+          preferred_carrier: [null],
+          non_stop_flight: flightType, // any or non-stop,
+          baggage_option: "any", // any or only-baggage
+          booking_class: flightClass, // Economy , Premium-Economy, Business, First-Class
+          supplier_uid: "all", //all
+          partner_id: "", //ftm_partner_id / mark blank
+          language: "en",
+        },
+        {
+          headers: {
+            apikey: "ITT88534696524514",
+            secretecode: "BOUINpK3g7kUI9TJ9eVgaK8l1stXNzz4YC5KiOBotf9",
+          },
+        }
+      )
+      .then((response) => {
+        
+        setData2(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error);
+      });
+  };
+
+  console.log(data2);
+  console.log(selectedOption);
   return (
     <div className="home-body">
       <img src={BgImg} alt="bg" className="home-img" />
@@ -154,20 +232,20 @@ export default function Home() {
                       </button>
                       <div className="dropdown-content">
                         <button
-                          onClick={() => setFlightType("Any Flight")}
+                          onClick={() => setFlightType("any")}
                           className={
-                            flightType === "Any Flight" ? "active" : ""
+                            flightType === "any" ? "active" : ""
                           }
                         >
                           Any Flight{" "}
-                          {flightType === "Any Flight" && <CheckOutlined />}
+                          {flightType === "any" && <CheckOutlined />}
                         </button>
                         <button
-                          onClick={() => setFlightType("Non-Stop")}
-                          className={flightType === "Non-Stop" ? "active" : ""}
+                          onClick={() => setFlightType("non-stop")}
+                          className={flightType === "non-stop" ? "active" : ""}
                         >
                           Non-Stop{" "}
-                          {flightType === "Non-Stop" && <CheckOutlined />}
+                          {flightType === "non-stop" && <CheckOutlined />}
                         </button>
                       </div>
                     </div>
@@ -320,12 +398,12 @@ export default function Home() {
                   <p>Error</p>
                 )}
 
-                <div>
+                <form onSubmit={onSubmit}>
                   <div className="select-container">
                     <Select
                       value={selectedOption}
                       onChange={handleChange}
-                      options={options}
+                      options={data}
                       isSearchable
                       placeholder="Leaving From"
                       className="home-Select1"
@@ -334,7 +412,7 @@ export default function Home() {
                     <Select
                       value={selectedOption2}
                       onChange={handleChange2}
-                      options={options}
+                      options={data}
                       isSearchable
                       placeholder="Going From"
                       className="home-Select1"
@@ -384,8 +462,8 @@ export default function Home() {
                       className="home-Select1"
                     />
                   </div>
-                  <button>SEARCH</button>
-                </div>
+                  <button type="submit">SEARCH</button>
+                </form>
               </div>
             ) : page === 2 ? (
               // Hotels
@@ -395,7 +473,7 @@ export default function Home() {
             )}
           </div>
 
-          <div >
+          <div>
             <h3>Airline: </h3>
             <h3>Details: </h3>
             <h3>Departure: </h3>
