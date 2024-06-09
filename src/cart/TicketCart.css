@@ -1,0 +1,64 @@
+.ticket-cart{
+    width: 80%;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    background-color: #fff;
+    color: black;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 10px;
+}
+.ticket-cart-Left{
+    width: 75%;
+}
+.ticket-cart-Right{
+    width: 25%;
+}
+.ticketCart-top{
+    width: 100%;
+    height: 30px;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ticketCart-top-text1{
+    font-weight: 600;
+    opacity: .7;
+    flex: 2;
+}
+.ticketCart-top-text2{
+    font-weight: 600;
+    opacity: .7;
+    flex: 1;
+}
+.ticketCart-top2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ticketCart-div1{
+    flex: 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.ticket-img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.ticketCart-top-text3{
+    font-weight: 600;
+    text-align: justify;
+}
+.ticketCart-div2{
+    flex: 1;
+    display: flex;
+    justify-content:center;
+    align-items: flex-start;
+    flex-direction: column;
+}

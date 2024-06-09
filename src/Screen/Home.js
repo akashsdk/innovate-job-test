@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
-import BgImg from "../Img/Emirates-airlines.jpg";
+import BgImg from "../Img/GettyImages-168349292_3-edited.jpg";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,6 +21,7 @@ import {
   CloseOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import TicketCart from "../cart/TicketCart";
 
 const options2 = [
   { value: "Galileo PK", label: "Galileo PK" },
@@ -110,6 +111,10 @@ export default function Home() {
   };
 
   const [data2, setData2] = useState();
+  const [segments, setSegments] = useState([
+    { leavingFrom: null, goingTo: null, departureDate: null },
+    { leavingFrom: null, goingTo: null, departureDate: null },
+  ]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -163,6 +168,27 @@ export default function Home() {
 
   console.log(data2);
   console.log(selectedOption);
+
+  const handleSegmentChange = (index, field, value) => {
+    const newSegments = [...segments];
+    newSegments[index][field] = value;
+    setSegments(newSegments);
+  };
+
+  const addSegment = () => {
+    setSegments([
+      ...segments,
+      { leavingFrom: null, goingTo: null, departureDate: null },
+    ]);
+  };
+
+  const removeSegment = (index) => {
+    if (segments.length > 2) {
+      const newSegments = segments.filter((_, i) => i !== index);
+      setSegments(newSegments);
+    }
+  };
+
   return (
     <div className="home-body">
       <img src={BgImg} alt="bg" className="home-img" />
@@ -274,7 +300,7 @@ export default function Home() {
                         <div className="dropdown-content">
                           <div className="passenger-count">
                             <p>
-                              Adult
+                              <strong>Adult</strong>
                               <br />
                               <RightOutlined /> 12 Years
                             </p>
@@ -295,7 +321,7 @@ export default function Home() {
 
                           <div className="passenger-count">
                             <p>
-                              Children
+                              <strong>Children</strong>
                               <br />
                               2-12 Years
                             </p>
@@ -316,7 +342,7 @@ export default function Home() {
 
                           <div className="passenger-count">
                             <p>
-                              Infants
+                              <strong>Infants</strong>
                               <br />
                               12 Years <LeftOutlined />
                             </p>
@@ -555,93 +581,78 @@ export default function Home() {
                 ) : flightsPage === 3 ? (
                   <form onSubmit={onSubmit}>
                     <div className="home-div">
-                      <button className="home-search-button3">
-                      <PlusOutlined /> Add
+                      <button
+                        type="button"
+                        className="home-search-button3"
+                        onClick={addSegment}
+                      >
+                        <PlusOutlined /> Add
                       </button>
                     </div>
-                    <div className="select-container3">
-                      <div className="select-container2">
-                        <Select
-                          value={selectedOption}
-                          onChange={handleChange}
-                          options={data}
-                          isSearchable
-                          placeholder="Leaving From"
-                          className="home-Select1"
-                        />
+                    {segments.map((segment, index) => (
+                      <div>
+                        <div className="select-container3">
+                          <div className="select-container2">
+                            <Select
+                              options={data}
+                              placeholder="Leaving from"
+                              value={segment.leavingFrom}
+                              onChange={(option) =>
+                                handleSegmentChange(
+                                  index,
+                                  "leavingFrom",
+                                  option
+                                )
+                              }
+                              className="home-Select1"
+                            />
 
-                        <Select
-                          value={selectedOption2}
-                          onChange={handleChange2}
-                          options={data}
-                          isSearchable
-                          placeholder="Going To"
-                          className="home-Select1"
-                        />
-                      </div>
+                            <Select
+                              options={data}
+                              placeholder="Going to"
+                              value={segment.goingTo}
+                              onChange={(option) =>
+                                handleSegmentChange(index, "goingTo", option)
+                              }
+                              className="home-Select1"
+                            />
+                          </div>
 
-                      <div className="select-container2">
-                        <div className="calendar-container">
-                          <p className="home-DatePicker-text">Departure Date</p>
-                          <DatePicker
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy" // Change the format as needed
-                            placeholderText="Select a date"
-                            isClearable
-                            className="home-DatePicker"
-                          />
+                          <div className="select-container2">
+                            <div className="calendar-container">
+                              <p className="home-DatePicker-text">
+                                Departure Date
+                              </p>
+                              <DatePicker
+                                selected={segment.departureDate}
+                                onChange={(date) =>
+                                  handleSegmentChange(
+                                    index,
+                                    "departureDate",
+                                    date
+                                  )
+                                }
+                                dateFormat="dd/MM/yyyy"
+                                placeholderText="Select a date"
+                                isClearable
+                                className="home-DatePicker"
+                              />
+                            </div>
+
+                            <button
+                              className="home-search-button2"
+                              type="button"
+                              onClick={() => removeSegment(index)}
+                              disabled={segments.length <= 2}
+                            >
+                              <CloseOutlined />
+                            </button>
+                          </div>
                         </div>
 
-                        <button className="home-search-button2">
-                          <CloseOutlined />
-                        </button>
+                        <div className="home-line2" />
                       </div>
-                    </div>
-
-                    <div className="home-line2"/>
-
-                    <div className="select-container3">
-                      <div className="select-container2">
-                        <Select
-                          value={selectedOption}
-                          onChange={handleChange}
-                          options={data}
-                          isSearchable
-                          placeholder="Leaving From"
-                          className="home-Select1"
-                        />
-
-                        <Select
-                          value={selectedOption2}
-                          onChange={handleChange2}
-                          options={data}
-                          isSearchable
-                          placeholder="Going To"
-                          className="home-Select1"
-                        />
-                      </div>
-
-                      <div className="select-container2">
-                        <div className="calendar-container">
-                          <p className="home-DatePicker-text">Departure Date</p>
-                          <DatePicker
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy" // Change the format as needed
-                            placeholderText="Select a date"
-                            isClearable
-                            className="home-DatePicker"
-                          />
-                        </div>
-
-                        <button className="home-search-button2">
-                          <CloseOutlined />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="home-line2"/>
+                    ))}
 
                     <div className="select-container2">
                       <Select
@@ -679,6 +690,19 @@ export default function Home() {
             ) : (
               <h2>Error page</h2>
             )}
+          </div>
+
+          <div style={{ marginTop: "50px", width: "100%" }}>
+            <TicketCart
+              airline="airline"
+              details="details"
+              departure="departure"
+              departureTime="departure_time"
+              arrival="arrival"
+              duration="duration"
+              baggage="baggage"
+              price="price"
+            />
           </div>
 
           {/* {data2?.data?.length > 0 && (
