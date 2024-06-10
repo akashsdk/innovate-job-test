@@ -5,6 +5,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { Button, message } from 'antd';
 
 import {
   ArrowRightOutlined,
@@ -111,6 +112,9 @@ export default function Home() {
   };
 
   const [data2, setData2] = useState();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState(false);
+
   const [segments, setSegments] = useState([
     { leavingFrom: null, goingTo: null, departureDate: null },
     { leavingFrom: null, goingTo: null, departureDate: null },
@@ -118,17 +122,24 @@ export default function Home() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    axios
-      .post(
+    messageApi.open({
+      type: 'loading',
+      content: 'Action in progress..',
+      duration: 0,
+    });
+
+    try {
+      const response = await axios.post(
         "https://devapi.innotraveltech.com/flight/search",
         {
-          journey_type: "OneWay", // OneWay, RoundTrip, MultiCity
+          journey_type: "OneWay",
           segment: [
             {
-              departure_airport_type: "CITY", // CITY or AIRPORT
+              departure_airport_type: "CITY",
               departure_airport: selectedOption.value,
-              arrival_airport_type: "AIRPORT", // CITY or AIRPORT
+              arrival_airport_type: "AIRPORT",
               arrival_airport: selectedOption2.value,
               departure_date: new Date(selectedDate)
                 .toLocaleString()
@@ -144,11 +155,11 @@ export default function Home() {
           travelers_infants: infants,
           travelers_infants_age: [""],
           preferred_carrier: [null],
-          non_stop_flight: flightType, // any or non-stop,
-          baggage_option: "any", // any or only-baggage
-          booking_class: flightClass, // Economy , Premium-Economy, Business, First-Class
-          supplier_uid: "all", //all
-          partner_id: "", //ftm_partner_id / mark blank
+          non_stop_flight: flightType,
+          baggage_option: "any",
+          booking_class: flightClass,
+          supplier_uid: "all",
+          partner_id: "",
           language: "en",
         },
         {
@@ -157,14 +168,19 @@ export default function Home() {
             secretecode: "BOUINpK3g7kUI9TJ9eVgaK8l1stXNzz4YC5KiOBotf9",
           },
         }
-      )
-      .then((response) => {
-        setData2(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the data!", error);
-      });
+      );
+      setData2(response.data);
+      messageApi.destroy();
+      message.success('Loading finished', 2.5);
+    } catch (error) {
+      console.error("There was an error fetching the data!", error);
+      messageApi.destroy();
+      message.error('There was an error fetching the data!', 2.5);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   console.log(data2);
   console.log(selectedOption);
@@ -191,6 +207,7 @@ export default function Home() {
 
   return (
     <div className="home-body">
+      {contextHolder}
       <img src={BgImg} alt="bg" className="home-img" />
       <div className="home-box">
         <div className="home-main-box">
@@ -496,7 +513,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="home-line" />
-                    <button type="submit" className="home-search-button">
+                    <button type="submit" loading={loading} className="home-search-button">
                       <SearchOutlined />
                       SEARCH
                     </button>
@@ -573,7 +590,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="home-line" />
-                    <button type="submit" className="home-search-button">
+                    <button type="submit" className="home-search-button" loading={loading}>
                       <SearchOutlined />
                       SEARCH
                     </button>
@@ -675,7 +692,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="home-line" />
-                    <button type="submit" className="home-search-button">
+                    <button type="submit" className="home-search-button" loading={loading}>
                       <SearchOutlined />
                       SEARCH
                     </button>
