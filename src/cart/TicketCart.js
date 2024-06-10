@@ -3,15 +3,22 @@ import "./TicketCart.css";
 
 import Img from "../Img/PK.png";
 
+import { Link } from "react-router-dom";
+
 export default function TicketCart({
-  airline,
+  airlineName,
   details,
   departure,
   departureTime,
   arrival,
   duration,
-  baggage,
+  sitType,
+  baggageType,
+  baggageWeight,
   price,
+  priceType,
+  totalPrice,
+  seats,
 }) {
   return (
     <div className="ticket-cart">
@@ -28,27 +35,42 @@ export default function TicketCart({
         <div className="ticketCart-top2">
           <div className="ticketCart-div1">
             <img src={Img} alt="Logo" className="ticket-img" />
-            <p className="ticketCart-top-text3">
-              Pakistan International Airlines
+            <div>
+              <p className="ticketCart-top-text3">{airlineName}</p>
+              <div className="ticketCart-Seat">Seat:{seats}</div>
+            </div>
+          </div>
+
+          <div className="ticketCart-div2">
+            <p className="ticketCart-top-text1">{details}</p>
+          </div>
+
+          <div className="ticketCart-div2">
+            <h3 style={{ marginTop: "10px", marginBottom: "0px" }}>
+              {departure}
+            </h3>
+            <p
+              style={{
+                marginTop: "0px",
+                marginBottom: "0px",
+                fontSize: "14px",
+              }}
+            >
+              {departureTime}
             </p>
           </div>
 
           <div className="ticketCart-div2">
-            <p className="ticketCart-top-text1">PK-213</p>
-          </div>
-
-          <div className="ticketCart-div2">
-            <h3>KHI</h3>
-            <p>
-              16-Jun-24
-              <br />
-              16:40
-            </p>
-          </div>
-
-          <div className="ticketCart-div2">
-            <h3>DXB</h3>
-            <p>
+            <h3 style={{ marginTop: "10px", marginBottom: "0px" }}>
+              {arrival}
+            </h3>
+            <p
+              style={{
+                marginTop: "0px",
+                marginBottom: "0px",
+                fontSize: "14px",
+              }}
+            >
               16-Jun-24
               <br />
               18:00
@@ -56,15 +78,46 @@ export default function TicketCart({
           </div>
 
           <div className="ticketCart-div2">
-            <p>2H 20M Economy (V)</p>
+            <p
+              style={{
+                marginTop: "10px",
+                marginBottom: "0px",
+                fontSize: "14px",
+              }}
+            >
+              {duration}
+              <br />
+              {sitType}
+            </p>
           </div>
 
           <div className="ticketCart-div2">
-          <p className="ticketCart-top-text1">ADT-30 kg</p>
+            <p
+              style={{
+                marginTop: "10px",
+                marginBottom: "0px",
+                fontSize: "14px",
+              }}
+            >
+              <strong>{baggageType}</strong>-{baggageWeight}
+            </p>
           </div>
         </div>
       </div>
-      <div className="ticket-cart-Right">Right side</div>
+      <div className="ticket-cart-Right">
+        <p className="ticket-cart-text1">Per 1 Passenger</p>
+        <p className="ticket-cart-text2">
+          {priceType}:{price}
+        </p>
+
+        <Link className="ticket-cart-link" to="/login">
+          Select Flight
+        </Link>
+        <p className="ticket-cart-text1">All Passenger</p>
+        <p className="ticket-cart-text2">
+          {priceType}: {totalPrice}
+        </p>
+      </div>
     </div>
   );
 }

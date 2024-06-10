@@ -692,35 +692,86 @@ export default function Home() {
             )}
           </div>
 
+          <div style={{ marginTop: "50px", width: "100%" }}></div>
+
           <div style={{ marginTop: "50px", width: "100%" }}>
-            <TicketCart
-              airline="airline"
-              details="details"
-              departure="departure"
-              departureTime="departure_time"
-              arrival="arrival"
-              duration="duration"
-              baggage="baggage"
-              price="price"
-            />
+            {data2?.data?.length > 0 &&
+              data2.data.map((flight, index) =>
+                flight.flight_group.map((group, groupIndex) =>
+                  group.routes.map((route, routeIndex) => (
+                    <TicketCart
+                      key={`${index}-${groupIndex}-${routeIndex}`}
+                      airlineName={route.marketing.carrier_name}
+                      details={route.marketing.flight_number}
+                      departure={flight.search_parameter.departure_airport}
+                      departureTime={flight.search_parameter.departure_date}
+                      arrival={flight.search_parameter.arrival_airport}
+                      duration={group.flight_time}
+                      baggageType={
+                        route.baggages?.checked?.ADT?.baggage_type || "N/A"
+                      }
+                      baggageWeight={
+                        route.baggages?.checked?.ADT?.weight || "N/A"
+                      }
+                      sitType={route.booking_class.cabin_class}
+                      price={flight.price.base_fare.amount}
+                      priceType={flight.price.total.currency}
+                      totalPrice={flight.price.total.amount}
+                      seats={route.booking_class.seat_available}
+                    />
+                  ))
+                )
+              )}
           </div>
 
           {/* {data2?.data?.length > 0 && (
-            <div>
-              {data2.data.map((flight, index) => (
-                <div key={index}>
-                  <h3>Airline: {flight.airline}</h3>
-                  <h3>Details: {flight.details}</h3>
-                  <h3>Departure: {flight.departure}</h3>
-                  <p>{flight.departure_time}</p>
-                  <h3>Arrival: {flight.arrival}</h3>
-                  <h3>Duration: {flight.duration}</h3>
-                  <h3>Baggage: {flight.baggage}</h3>
-                  <h1>Price: {flight.price}</h1>
+  <div>
+    {data2?.data?.map((flight, index) => (
+        <div key={index} className="flight-details">
+          <h1>Total Currency: {flight.price.total.currency}</h1>
+          <h1>Total Price: {flight.price.total.amount}</h1>
+          <h1>Price: {flight.price.base_fare.amount}</h1>
+          <h3>Departure: {flight.search_parameter.departure_airport}</h3>
+          <p>Departure Date: {flight.search_parameter.departure_date}</p>
+          <h3>Arrival: {flight.search_parameter.arrival_airport}</h3>
+
+          {flight.flight_group?.map((group, groupIndex) => (
+            <div key={groupIndex} className="flight-group">
+              <h2>{group.no_of_stops_title}</h2>
+              <p>Duration: {group.flight_time}</p>
+
+              {group.routes?.map((route, routeIndex) => (
+                <div key={routeIndex} className="route-details">
+                  <h3>Airline: {route.marketing.carrier_name}</h3>
+                  <p>Flight Number: {route.marketing.flight_number}</p>
+                  <p>Departure: {route.origin_airport.name} ({route.origin})</p>
+                  <p>Arrival: {route.destination_airport.name} ({route.destination})</p>
+                  <p>Departure Time: {new Date(route.departure_time).toLocaleString()}</p>
+                  <p>Arrival Time: {new Date(route.arrival_time).toLocaleString()}</p>
+                  <p>Ticket Type: {route.booking_class.cabin_class}</p>
+                  <p>Seats Available: {route.booking_class.seat_available}</p>
+                  <p>Aircraft: {route.aircraft.name}</p>
+                  <div className="baggage-details">
+                    <h4>Baggage:</h4>
+                    {route.baggages?.checked && Object.values(route.baggages.checked).map((baggage, baggageIndex) => (
+                      <p key={baggageIndex}>
+                        {baggage.baggage_type}: {baggage.weight}{baggage.unit} ({baggage.passenger_type})
+                      </p>
+                    ))}
+                    {route.baggages?.carry_on && Object.values(route.baggages.carry_on).map((baggage, baggageIndex) => (
+                      <p key={baggageIndex}>
+                        {baggage.baggage_type}: {baggage.weight}{baggage.unit} ({baggage.passenger_type})
+                      </p>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
-          )} */}
+          ))}
+        </div>
+      ))}
+  </div>
+)} */}
         </div>
       </div>
     </div>
